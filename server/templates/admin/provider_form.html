@@ -1,0 +1,71 @@
+{% extends "admin/base_admin.html" %}
+
+{% block page_title %}{% if mode == "create" %}➕ Tambah Penyedia{% else %}✏️ Edit Penyedia{% endif %}{% endblock %}
+{% block header_actions %}<a href="/admin/providers" class="admin-btn">← Kembali</a>{% endblock %}
+
+{% block content %}
+<form method="post" class="admin-form">
+            <input type="hidden" name="csrf_token" value="{{ get_csrf_token(request) }}">
+    <label for="name">Nama Penyedia *</label>
+    <input type="text" id="name" name="name" required value="{{ provider.name if provider else '' }}">
+
+    <div class="admin-form-grid-2">
+        <div>
+            <label for="npwp">NPWP</label>
+            <input type="text" id="npwp" name="npwp" value="{{ provider.npwp if provider else '' }}">
+        </div>
+        <div>
+            <label for="siujk_number">Nomor SIUJK</label>
+            <input type="text" id="siujk_number" name="siujk_number" value="{{ provider.siujk_number if provider else '' }}">
+        </div>
+    </div>
+
+    <div class="admin-form-grid-2">
+        <div>
+            <label for="classification">Klasifikasi</label>
+            <input type="text" id="classification" name="classification" placeholder="Kecil/Menengah/Besar"
+                   value="{{ provider.classification if provider else '' }}">
+        </div>
+        <div>
+            <label for="qualification">Kualifikasi</label>
+            <input type="text" id="qualification" name="qualification" placeholder="K1/M1/B1"
+                   value="{{ provider.qualification if provider else '' }}">
+        </div>
+    </div>
+
+    <label for="address">Alamat</label>
+    <textarea id="address" name="address" rows="2">{{ provider.address if provider else '' }}</textarea>
+
+    <label for="region_code">Wilayah</label>
+    <select id="region_code" name="region_code">
+        <option value="">-- Pilih Wilayah --</option>
+        {% for r in regions %}
+        <option value="{{ r.code }}" {% if provider and provider.region_code == r.code %}selected{% endif %}>
+            {{ r.code }} - {{ r.name }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <div class="admin-form-grid-3">
+        <div>
+            <label for="contact_person">Contact Person</label>
+            <input type="text" id="contact_person" name="contact_person" value="{{ provider.contact_person if provider else '' }}">
+        </div>
+        <div>
+            <label for="phone">Telepon</label>
+            <input type="text" id="phone" name="phone" value="{{ provider.phone if provider else '' }}">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="{{ provider.email if provider else '' }}">
+        </div>
+    </div>
+
+    <div class="admin-form-actions">
+        <a href="/admin/providers" class="admin-btn">Batal</a>
+        <button type="submit" class="admin-btn admin-btn--primary">
+            {% if mode == "create" %}Simpan{% else %}Update{% endif %}
+        </button>
+    </div>
+</form>
+{% endblock %}

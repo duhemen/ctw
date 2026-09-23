@@ -1,0 +1,41 @@
+{% extends "admin/base_admin.html" %}
+
+{% block page_title %}📣 Kelola Feedback{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th><th>Jenis</th><th>Judul</th><th>Pelapor</th>
+                <th>Proyek</th><th>Tanggal</th><th>Status</th><th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for f in items %}
+        <tr>
+            <td>{{ f.id }}</td>
+            <td><span class="admin-badge admin-badge--info">{{ f.feedback_type }}</span></td>
+            <td><strong>{{ f.title }}</strong><br><small>{{ f.content[:80] }}...</small></td>
+            <td>{{ f.reporter_name }}</td>
+            <td>{{ f.project.name if f.project else "-" }}</td>
+            <td><small>{{ f.created_at.strftime("%Y-%m-%d") }}</small></td>
+            <td><span class="admin-badge">{{ f.status }}</span></td>
+            <td>
+                <form method="post" action="/admin/feedback/{{ f.id }}/status" class="admin-inline-form">
+            <input type="hidden" name="csrf_token" value="{{ get_csrf_token(request) }}">
+                    <select name="status" onchange="this.form.submit()">
+                        {% for s in ["Baru", "Ditinjau", "Ditindaklanjuti", "Selesai"] %}
+                        <option value="{{ s }}" {% if f.status == s %}selected{% endif %}>{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="admin-empty">Belum ada feedback.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

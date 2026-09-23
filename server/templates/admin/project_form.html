@@ -1,0 +1,269 @@
+{% extends "admin/base_admin.html" %}
+
+{% block page_title %}{% if mode == "create" %}➕ Tambah Proyek{% else %}✏️ Edit Proyek{% endif %}{% endblock %}
+{% block header_actions %}<a href="/admin/projects" class="admin-btn">← Kembali</a>{% endblock %}
+
+{% block content %}
+
+<!-- Data wilayah untuk pre-selection (kalau edit) -->
+<script id="preload-region" type="application/json">
+{{ {"code": project.region_code} | tojson if project else "null" }}
+</script>
+
+<form method="post" class="admin-form admin-form--wide" id="projectForm">
+    <input type="hidden" name="csrf_token" value="{{ get_csrf_token(request) }}">
+
+    <div class="admin-form-grid">
+        <!-- ============ KOLOM KIRI ============ -->
+        <div class="admin-form-col">
+            <h3>🏗️ Data Proyek</h3>
+
+            <label for="name">Nama Proyek *</label>
+            <input type="text" id="name" name="name" required value="{{ project.name if project else '' }}">
+
+            <label for="description">Deskripsi</label>
+            <textarea id="description" name="description" rows="3">{{ project.description if project else '' }}</textarea>
+
+            <div class="admin-form-grid-2">
+                <div>
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        {% for s in ["Berjalan", "Selesai", "Perencanaan", "Ditunda"] %}
+                        <option value="{{ s }}" {% if project and project.status == s %}selected{% endif %}>{{ s }}</option>
+                        {% endfor %}
+                    </select>
+                    <small id="statusWarning" class="field-warning" style="display:none;">
+                        ⚠️ Status selain "Berjalan" tidak tampil di dashboard default — ubah filter Status di dashboard publik.
+                    </small>
+                </div>
+                <div>
+                    <label for="risk_level">Tingkat Risiko</label>
+                    <select id="risk_level" name="risk_level">
+                        {% for r in ["Rendah", "Sedang", "Tinggi"] %}
+                        <option value="{{ r }}" {% if project and project.risk_level == r %}selected{% endif %}>{{ r }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <h3>💰 Kontrak</h3>
+
+            <div class="admin-form-grid-2">
+                <div>
+                    <label for="contract_number">Nomor Kontrak</label>
+                    <input type="text" id="contract_number" name="contract_number"
+                           value="{{ project.contract_number if project else '' }}">
+                </div>
+                <div>
+                    <label for="contract_value">Nilai Kontrak (juta Rp)</label>
+                    <input type="number" step="0.01" id="contract_value" name="contract_value"
+                           value="{{ project.contract_value if project else 0 }}">
+                </div>
+            </div>
+
+            <div class="admin-form-grid-2">
+                <div>
+                    <label for="contract_start">Tanggal Mulai</label>
+                    <input type="date" id="contract_start" name="contract_start"
+                           value="{{ project.contract_start if project and project.contract_start else '' }}">
+                </div>
+                <div>
+                    <label for="contract_end">Tanggal Selesai</label>
+                    <input type="date" id="contract_end" name="contract_end"
+                           value="{{ project.contract_end if project and project.contract_end else '' }}">
+                </div>
+            </div>
+
+            <div class="admin-form-grid-2">
+                <div>
+                    <label for="duration_days">Durasi (hari kalender)</label>
+                    <input type="number" id="duration_days" name="duration_days"
+                           value="{{ project.duration_days if project else 0 }}">
+                </div>
+                <div>
+                    <label for="fiscal_year">Tahun Anggaran</label>
+                    <input type="number" id="fiscal_year" name="fiscal_year"
+                           value="{{ project.fiscal_year if project else '' }}">
+                </div>
+            </div>
+
+            <label class="admin-checkbox">
+                <input type="checkbox" name="is_multi_year" id="is_multi_year"
+                       {% if project and project.is_multi_year %}checked{% endif %}>
+                <span>Proyek Multi-Years (kontrak tahun jamak)</span>
+            </label>
+
+            <label for="funding_source">Sumber Dana</label>
+            <input type="text" id="funding_source" name="funding_source"
+                   placeholder="APBN / APBD / DAK / DLL" value="{{ project.funding_source if project else '' }}">
+        </div>
+
+        <!-- ============ KOLOM KANAN ============ -->
+        <div class="admin-form-col">
+            <h3>📍 Lokasi</h3>
+
+            <!-- Search box wilayah -->
+            <label for="regionSearch">
+                🔍 Cari Wilayah (cepat)
+                <small style="font-weight:normal;color:#64748b;"> — ketik nama provinsi/kab/kec/kelurahan</small>
+            </label>
+            <div class="region-search-wrap">
+                <input type="text" id="regionSearch" placeholder="Contoh: Cibinong, Kapuas, Jayawijaya..."
+                       autocomplete="off">
+                <div id="regionSearchResults" class="region-search-results" style="display:none;"></div>
+            </div>
+
+            <!-- Cascading dropdowns -->
+            <div class="region-cascade">
+                <div>
+                    <label for="selProvinsi">Provinsi</label>
+                    <select id="selProvinsi" class="region-select">
+                        <option value="">— Pilih Provinsi —</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="selKabupaten">Kabupaten/Kota</label>
+                    <select id="selKabupaten" class="region-select" disabled>
+                        <option value="">— Pilih Kabupaten/Kota —</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="selKecamatan">Kecamatan</label>
+                    <select id="selKecamatan" class="region-select" disabled>
+                        <option value="">— Pilih Kecamatan —</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="selKelurahan">Kelurahan/Desa</label>
+                    <select id="selKelurahan" class="region-select" disabled>
+                        <option value="">— Pilih Kelurahan/Desa —</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Hidden field yang di-submit -->
+            <input type="hidden" name="region_code" id="region_code" value="{{ project.region_code if project else '' }}">
+
+            <!-- Info wilayah terpilih -->
+            <div id="regionPathInfo" class="region-path-info" style="display:none;">
+                <small>📌 Wilayah terpilih:</small>
+                <div id="regionPathText"></div>
+            </div>
+
+            <label for="address">Alamat Detail</label>
+            <input type="text" id="address" name="address"
+                   placeholder="Jl. Raya No. 123, RT 01/RW 02..."
+                   value="{{ project.address if project else '' }}">
+
+            <h3>🗺️ Koordinat</h3>
+
+            <div class="coord-hint">
+                💡 <strong>Cara cepat:</strong> klik peta di bawah, atau ketik langsung di kolom lat/lng.
+                Tombol <em>"Gunakan Lokasi Wilayah"</em> akan isi otomatis dari titik pusat wilayah terpilih.
+            </div>
+
+            <div class="admin-form-grid-2">
+                <div>
+                    <label for="latitude">Latitude *</label>
+                    <input type="number" step="0.000001" id="latitude" name="latitude" required
+                           value="{{ project.latitude if project else '' }}" placeholder="-6.595038">
+                </div>
+                <div>
+                    <label for="longitude">Longitude *</label>
+                    <input type="number" step="0.000001" id="longitude" name="longitude" required
+                           value="{{ project.longitude if project else '' }}" placeholder="106.816635">
+                </div>
+            </div>
+
+            <div class="coord-actions">
+                <button type="button" id="btnUseRegionCoord" class="admin-btn admin-btn--sm">
+                    📍 Gunakan Lokasi Wilayah
+                </button>
+                <button type="button" id="btnLocateMap" class="admin-btn admin-btn--sm">
+                    🎯 Zoom ke Titik
+                </button>
+            </div>
+
+            <div id="miniMap" class="mini-map"></div>
+            <p class="mini-map__hint">Klik peta atau geser marker untuk mengubah koordinat</p>
+
+            <h3>📊 Progres</h3>
+
+            <div class="admin-form-grid-3">
+                <div>
+                    <label for="progress_physical">Fisik (%)</label>
+                    <input type="number" step="0.1" min="0" max="100" id="progress_physical"
+                           name="progress_physical" value="{{ project.progress_physical if project else 0 }}">
+                </div>
+                <div>
+                    <label for="progress_financial">Keuangan (%)</label>
+                    <input type="number" step="0.1" min="0" max="100" id="progress_financial"
+                           name="progress_financial" value="{{ project.progress_financial if project else 0 }}">
+                </div>
+                <div>
+                    <label for="time_work_percent">Waktu (%)</label>
+                    <input type="number" step="0.1" min="0" max="100" id="time_work_percent"
+                           name="time_work_percent" value="{{ project.time_work_percent if project else 0 }}">
+                </div>
+            </div>
+
+            <h3>🏢 Pelaksana</h3>
+
+            <!-- Penyedia Jasa -->
+            <label for="provider_id">Penyedia Jasa</label>
+            <div class="provider-select-wrap">
+                <select id="provider_id" name="provider_id">
+                    <option value="">— Pilih Penyedia —</option>
+                    {% for pr in providers %}
+                    <option value="{{ pr.id }}" {% if project and project.provider_id == pr.id %}selected{% endif %}>
+                        {{ pr.name }}{% if pr.classification %} ({{ pr.classification }}){% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+                <a href="/admin/providers/new" target="_blank" class="admin-btn admin-btn--sm"
+                   title="Buka form tambah penyedia di tab baru">+ Baru</a>
+            </div>
+
+            <!-- Konsultan Pengawas -->
+            <label for="supervisor_id">Konsultan Pengawas</label>
+            <div class="provider-select-wrap">
+                <select id="supervisor_id" name="supervisor_id">
+                    <option value="">— Pilih Pengawas —</option>
+                    {% for pr in providers %}
+                    <option value="{{ pr.id }}" {% if project and project.supervisor_id == pr.id %}selected{% endif %}>
+                        {{ pr.name }}{% if pr.classification %} ({{ pr.classification }}){% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+                <a href="/admin/providers/new" target="_blank" class="admin-btn admin-btn--sm"
+                   title="Buka form tambah penyedia di tab baru">+ Baru</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-form-actions">
+        <a href="/admin/projects" class="admin-btn">Batal</a>
+        <button type="submit" class="admin-btn admin-btn--primary">
+            {% if mode == "create" %}Simpan Proyek{% else %}Update Proyek{% endif %}
+        </button>
+    </div>
+</form>
+
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var sel = document.getElementById("status");
+  var warn = document.getElementById("statusWarning");
+  if (!sel || !warn) return;
+  function update() {
+    warn.style.display = sel.value !== "Berjalan" ? "block" : "none";
+  }
+  sel.addEventListener("change", update);
+  update();
+});
+</script>
+<script src="{{ url_for('static', path='js/project_form.js') }}"></script>
+
+{% endblock %}

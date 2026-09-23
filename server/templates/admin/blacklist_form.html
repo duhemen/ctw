@@ -1,0 +1,75 @@
+{% extends "admin/base_admin.html" %}
+
+{% block page_title %}{% if mode == "create" %}➕ Tambah Blacklist{% else %}✏️ Edit Blacklist{% endif %}{% endblock %}
+{% block header_actions %}<a href="/admin/blacklist" class="admin-btn">← Kembali</a>{% endblock %}
+
+{% block content %}
+<form method="post" class="admin-form">
+            <input type="hidden" name="csrf_token" value="{{ get_csrf_token(request) }}">
+    <label for="provider_id">Penyedia *</label>
+    <select id="provider_id" name="provider_id" required>
+        <option value="">-- Pilih Penyedia --</option>
+        {% for p in providers %}
+        <option value="{{ p.id }}" {% if entry and entry.provider_id == p.id %}selected{% endif %}>{{ p.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="reason">Alasan Lengkap *</label>
+    <textarea id="reason" name="reason" rows="4" required>{{ entry.reason if entry else '' }}</textarea>
+
+    <div class="admin-form-grid-2">
+        <div>
+            <label for="category">Kategori</label>
+            <select id="category" name="category">
+                {% for c in ["Wanprestasi", "Korupsi", "K3", "Lingkungan", "Lainnya"] %}
+                <option value="{{ c }}" {% if entry and entry.category == c %}selected{% endif %}>{{ c }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                {% for s in ["Aktif", "Selesai", "Banding"] %}
+                <option value="{{ s }}" {% if entry and entry.status == s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <label for="regulation_ref">Dasar Hukum</label>
+    <input type="text" id="regulation_ref" name="regulation_ref"
+           placeholder="Perpres 16/2018 Pasal 78..." value="{{ entry.regulation_ref if entry else '' }}">
+
+    <div class="admin-form-grid-2">
+        <div>
+            <label for="decision_by">Diputus Oleh</label>
+            <input type="text" id="decision_by" name="decision_by" value="{{ entry.decision_by if entry else '' }}">
+        </div>
+        <div>
+            <label for="decision_number">Nomor SK</label>
+            <input type="text" id="decision_number" name="decision_number" value="{{ entry.decision_number if entry else '' }}">
+        </div>
+    </div>
+
+    <div class="admin-form-grid-2">
+        <div>
+            <label for="start_date">Tanggal Mulai</label>
+            <input type="date" id="start_date" name="start_date" value="{{ entry.start_date if entry and entry.start_date else '' }}">
+        </div>
+        <div>
+            <label for="end_date">Tanggal Berakhir</label>
+            <input type="date" id="end_date" name="end_date" value="{{ entry.end_date if entry and entry.end_date else '' }}">
+        </div>
+    </div>
+
+    <label for="document_url">URL Dokumen SK</label>
+    <input type="url" id="document_url" name="document_url" value="{{ entry.document_url if entry else '' }}">
+
+    <div class="admin-form-actions">
+        <a href="/admin/blacklist" class="admin-btn">Batal</a>
+        <button type="submit" class="admin-btn admin-btn--primary">
+            {% if mode == "create" %}Simpan{% else %}Update{% endif %}
+        </button>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,57 @@
+name: ctw_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # --- Core Python & Web Framework ---
+  - python=3.11
+  - fastapi>=0.115.0
+  - uvicorn[standard]>=0.30.0
+  - pydantic>=2.7.0
+  - python-multipart
+
+  # --- Database & ORM ---
+  - sqlalchemy>=2.0.30
+  - geoalchemy2
+  - alembic
+
+  # --- Data Processing & Analysis ---
+  - pandas>=2.2.0
+  - numpy>=1.26.0
+  - scipy>=1.13.0
+  - statsmodels>=0.14.0
+  - scikit-learn>=1.5.0
+
+  # --- Geospatial Analysis ---
+  - geopandas>=0.14.0
+  - shapely>=2.0.0
+  - fiona
+  - pyproj
+  - rtree
+
+  # --- Server-Side Rendering & Visualization (Mengadopsi spatialnomic) ---
+  - jinja2>=3.1.0       # Template engine untuk HTML dinamis
+  # Leaflet.js & Chart.js akan di-load via CDN di template HTML, tidak perlu di environment.yml
+
+  # --- Client-Side Dependencies (untuk fase 2, tetap diperlukan untuk PyQt) ---
+  - pyqt>=6.5.0
+
+  # --- Utilities & Configuration ---
+  - python-dotenv
+  - loguru
+  - httpx
+  - requests
+  - psycopg2  # Untuk koneksi ke PostgreSQL jika diperlukan di masa depan
+
+  # --- Development & Testing Tools ---
+  - pytest
+  - black
+  - flake8
+  - mypy
+  - pip
+
+  # --- Pip-only packages ---
+  - pip:
+      - streamlit-folium  # Opsional, jika ingin tetap ada dashboard internal berbasis Streamlit
+      - qtawesome
+      - qdarkstyle

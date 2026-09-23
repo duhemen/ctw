@@ -1,0 +1,70 @@
+{% extends "admin/base_admin.html" %}
+
+{% block page_title %}📸 Foto: {{ project.name }}{% endblock %}
+{% block header_actions %}
+<a href="/admin/projects" class="admin-btn">← Kembali ke Proyek</a>
+<a href="/admin/projects/{{ project.id }}/edit" class="admin-btn">✏️ Edit Proyek</a>
+{% endblock %}
+
+{% block content %}
+
+<section class="admin-card">
+    <h3>⬆️ Upload Foto Baru</h3>
+    <form method="post" action="/admin/projects/{{ project.id }}/photos/upload"
+          enctype="multipart/form-data" class="admin-form admin-form--inline">
+            <input type="hidden" name="csrf_token" value="{{ get_csrf_token(request) }}">
+        <div class="admin-form-grid-3">
+            <div>
+                <label for="photo">File Foto *</label>
+                <input type="file" id="photo" name="photo" accept="image/*" required>
+            </div>
+            <div>
+                <label for="caption">Keterangan</label>
+                <input type="text" id="caption" name="caption" placeholder="Foto progres 60%...">
+            </div>
+            <div>
+                <label for="category">Kategori</label>
+                <select id="category" name="category">
+                    <option value="progress">Progress</option>
+                    <option value="awal">Kondisi Awal</option>
+                    <option value="serah_terima">Serah Terima</option>
+                    <option value="dokumen">Dokumen</option>
+                    <option value="lainnya">Lainnya</option>
+                </select>
+            </div>
+        </div>
+        <div class="admin-form-actions">
+            <button type="submit" class="admin-btn admin-btn--primary">Upload Foto</button>
+        </div>
+    </form>
+    <p class="admin-hint">Format: JPG/PNG/WEBP/GIF · Maks 10 MB · Nama file otomatis di-sanitasi</p>
+</section>
+
+<section class="admin-card">
+    <h3>📸 Galeri Foto ({{ photos|length }})</h3>
+    {% if photos %}
+    <div class="admin-photo-grid">
+        {% for ph in photos %}
+        <div class="admin-photo-card">
+            <a href="{{ ph.file_path }}" target="_blank" class="admin-photo-card__link">
+                <img src="{{ ph.file_path }}" alt="{{ ph.caption }}" loading="lazy">
+            </a>
+            <div class="admin-photo-card__info">
+                <span class="admin-badge admin-badge--info">{{ ph.category }}</span>
+                <strong>{{ ph.caption }}</strong>
+                <small>{{ ph.taken_at.strftime("%Y-%m-%d %H:%M") }}</small>
+            </div>
+            <form method="post" action="/admin/projects/{{ project.id }}/photos/{{ ph.id }}/delete"
+                  onsubmit="return confirm('Hapus foto ini?');" class="admin-photo-card__actions">
+            <input type="hidden" name="csrf_token" value="{{ get_csrf_token(request) }}">
+                <button type="submit" class="admin-btn admin-btn--sm admin-btn--danger">Hapus</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="admin-empty">Belum ada foto dokumentasi. Upload foto pertama di atas.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

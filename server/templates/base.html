@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', path='css/polish.css') }}">
+</head>
+<body>
+    <header class="ctw-header">
+        <div class="ctw-header__brand">
+            <h1>Construction Transparency Watch</h1>
+            <span>Pengawasan Konstruksi Berbasis Geospasial</span>
+        </div>
+        <nav class="ctw-header__nav">
+            <a href="/">Dashboard</a>
+            <a href="/feedback/">Feedback</a>
+            <a href="/tentang">Tentang</a>
+        </nav>
+    </header>
+
+    <main class="ctw-main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="ctw-footer">
+        <p>&copy; 2026 Construction Transparency Watch - Data Terbuka untuk Pengawasan Publik</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    {% block scripts %}{% endblock %}
+    <script src="{{ url_for('static', path='js/ui.js') }}"></script>
+</body>
+</html>

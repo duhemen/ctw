@@ -1,0 +1,41 @@
+{% extends "admin/base_admin.html" %}
+
+{% block page_title %}🏢 Kelola Penyedia{% endblock %}
+{% block header_actions %}
+<a href="/admin/providers/new" class="admin-btn admin-btn--primary">+ Tambah Penyedia</a>
+{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th><th>Nama</th><th>NPWP</th><th>Klasifikasi</th>
+                <th>Kualifikasi</th><th>Kontak</th><th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in providers %}
+        <tr>
+            <td>{{ p.id }}</td>
+            <td><strong>{{ p.name }}</strong><br><small>{{ p.siujk_number or "-" }}</small></td>
+            <td>{{ p.npwp or "-" }}</td>
+            <td>{{ p.classification or "-" }}</td>
+            <td>{{ p.qualification or "-" }}</td>
+            <td><small>{{ p.contact_person or "-" }}<br>{{ p.phone or "" }}</small></td>
+            <td class="admin-actions">
+                <a href="/admin/providers/{{ p.id }}/edit" class="admin-btn admin-btn--sm">Edit</a>
+                <form method="post" action="/admin/providers/{{ p.id }}/delete"
+                      onsubmit="return confirm('Hapus penyedia ini?');" style="display:inline;">
+            <input type="hidden" name="csrf_token" value="{{ get_csrf_token(request) }}">
+                    <button type="submit" class="admin-btn admin-btn--sm admin-btn--danger">Hapus</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="admin-empty">Belum ada penyedia.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

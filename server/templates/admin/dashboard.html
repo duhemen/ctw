@@ -1,0 +1,64 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<section class="admin-stats">
+    <div class="admin-stat">
+        <span class="admin-stat__label">Total Proyek</span>
+        <strong class="admin-stat__value">{{ stats.projects }}</strong>
+        <a href="/admin/projects" class="admin-stat__link">Kelola →</a>
+    </div>
+    <div class="admin-stat">
+        <span class="admin-stat__label">Penyedia</span>
+        <strong class="admin-stat__value">{{ stats.providers }}</strong>
+        <a href="/admin/providers" class="admin-stat__link">Kelola →</a>
+    </div>
+    <div class="admin-stat">
+        <span class="admin-stat__label">Blacklist Aktif</span>
+        <strong class="admin-stat__value">{{ stats.blacklist }}</strong>
+        <a href="/admin/blacklist" class="admin-stat__link">Kelola →</a>
+    </div>
+    <div class="admin-stat">
+        <span class="admin-stat__label">Feedback</span>
+        <strong class="admin-stat__value">{{ stats.feedbacks }}</strong>
+        <a href="/admin/feedback" class="admin-stat__link">Kelola →</a>
+    </div>
+</section>
+
+<section class="admin-grid-2">
+    <div class="admin-card">
+        <h3>🏗️ Proyek Terbaru</h3>
+        {% if recent_projects %}
+        <table class="admin-table admin-table--compact">
+            <thead><tr><th>Nama</th><th>Status</th><th>Nilai</th></tr></thead>
+            <tbody>
+            {% for p in recent_projects %}
+            <tr>
+                <td><a href="/admin/projects/{{ p.id }}/edit">{{ p.name }}</a></td>
+                <td>{{ p.status }}</td>
+                <td>Rp {{ "%.0f"|format(p.contract_value or 0) }} jt</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="admin-empty">Belum ada proyek.</p>
+        {% endif %}
+    </div>
+
+    <div class="admin-card">
+        <h3>📣 Feedback Terbaru</h3>
+        {% if recent_feedbacks %}
+        <ul class="admin-list">
+            {% for fb in recent_feedbacks %}
+            <li>
+                <strong>{{ fb.title }}</strong>
+                <small>{{ fb.feedback_type }} · {{ fb.reporter_name }}</small>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="admin-empty">Belum ada feedback.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

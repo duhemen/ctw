@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CTW{% endblock %}
+
+{% block content %}
+
+<section class="ctw-filter-bar">
+    <div class="ctw-filter-bar__title">
+        <span class="ctw-pin">📍</span>
+        <strong>Pilih Wilayah:</strong>
+    </div>
+    <select id="filterProvinsi" class="ctw-select">
+        <option value="">— Provinsi —</option>
+    </select>
+    <select id="filterKabupaten" class="ctw-select" disabled>
+        <option value="">— Kabupaten/Kota —</option>
+    </select>
+    <select id="filterKecamatan" class="ctw-select" disabled>
+        <option value="">— Kecamatan —</option>
+    </select>
+    <select id="filterKelurahan" class="ctw-select" disabled>
+        <option value="">— Kelurahan/Desa —</option>
+    </select>
+    <select id="filterTahun" class="ctw-select">
+        <option value="">— Tahun (otomatis) —</option>
+    </select>
+    <select id="filterStatus" class="ctw-select">
+        <option value="aktif">— Status: Aktif —</option>
+        <option value="semua">Semua Status</option>
+        <option value="Berjalan">Berjalan</option>
+        <option value="Perencanaan">Perencanaan</option>
+        <option value="Selesai">Selesai</option>
+        <option value="Ditunda">Ditunda</option>
+    </select>
+    <button id="btnReset" class="ctw-btn ctw-btn--ghost">Reset</button>
+</section>
+
+<section class="ctw-stats">
+    <div class="ctw-stat-card">
+        <span class="ctw-stat-card__label">Total Proyek</span>
+        <strong class="ctw-stat-card__value" id="statProjects">-</strong>
+    </div>
+    <div class="ctw-stat-card">
+        <span class="ctw-stat-card__label">Total Anggaran</span>
+        <strong class="ctw-stat-card__value" id="statBudget">-</strong>
+    </div>
+    <div class="ctw-stat-card">
+        <span class="ctw-stat-card__label">Audit Aktif</span>
+        <strong class="ctw-stat-card__value" id="statAudit">-</strong>
+    </div>
+    <div class="ctw-stat-card">
+        <span class="ctw-stat-card__label">Laporan Publik</span>
+        <strong class="ctw-stat-card__value" id="statPublic">-</strong>
+    </div>
+</section>
+
+<section class="ctw-grid" id="dashboardGrid">
+    <div class="ctw-card ctw-card--map">
+        <div class="ctw-map-header">
+            <h2>Peta Sebaran Proyek</h2>
+            <div class="ctw-map-controls">
+                <label class="ctw-toggle">
+                    <input type="checkbox" id="toggleBoundaries" checked>
+                    <span>Batas Wilayah</span>
+                </label>
+                <label class="ctw-toggle">
+                    <input type="checkbox" id="toggleObservations" checked>
+                    <span>Observasi</span>
+                </label>
+                <span id="boundaryInfo" class="ctw-map-info"></span>
+            </div>
+        </div>
+        <div class="ctw-map-wrap">
+            <div id="projectMap"></div>
+                <div id="mapLoading" class="ctw-loading-overlay">
+                    <div class="ctw-spinner ctw-spinner--lg"></div>
+                    <span>Memuat peta...</span>
+                </div>
+            <div id="mapHint" class="ctw-map-hint">
+                📍 Pilih wilayah di atas untuk menampilkan proyek
+            </div>
+        </div>
+    </div>
+
+    <div class="ctw-card">
+        <h2>Realisasi Anggaran per Kuartal</h2>
+        <div class="ctw-chart-wrap">
+            <canvas id="budgetChart"></canvas>
+                <div id="budgetLoading" class="ctw-loading-overlay">
+                    <div class="ctw-spinner"></div>
+                </div>
+            <div id="budgetHint" class="ctw-chart-hint">Pilih wilayah</div>
+        </div>
+    </div>
+
+    <div class="ctw-card">
+        <h2>Distribusi Risiko Proyek</h2>
+        <div class="ctw-chart-wrap">
+            <canvas id="riskChart"></canvas>
+                <div id="riskLoading" class="ctw-loading-overlay">
+                    <div class="ctw-spinner"></div>
+                </div>
+            <div id="riskHint" class="ctw-chart-hint">Pilih wilayah</div>
+        </div>
+    </div>
+</section>
+
+<section class="ctw-table-section">
+    <h2>🏢 Penyedia Jasa Konstruksi</h2>
+    <div class="ctw-table-wrap">
+        <table class="ctw-table" id="providerTable">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Klasifikasi</th>
+                    <th>Kualifikasi</th>
+                    <th>Wilayah</th>
+                    <th>Kontak</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="6" class="ctw-empty">Pilih wilayah untuk menampilkan data.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="ctw-table-section">
+    <h2>⛔ Daftar Hitam (Blacklist) Penyedia</h2>
+    <div class="ctw-table-wrap">
+        <table class="ctw-table" id="blacklistTable">
+            <thead>
+                <tr>
+                    <th>Penyedia</th>
+                    <th>Kategori</th>
+                    <th>Alasan</th>
+                    <th>Dasar Hukum</th>
+                    <th>SK</th>
+                    <th>Periode</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="7" class="ctw-empty">Belum ada data blacklist.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<aside id="sidePanel" class="ctw-side-panel">
+    <div class="ctw-side-panel__header">
+        <h3 id="panelTitle">Detail Proyek</h3>
+        <button id="panelClose" class="ctw-panel-close">&times;</button>
+    </div>
+    <div class="ctw-side-panel__body" id="panelBody">
+        <p class="ctw-empty">Memuat...</p>
+    </div>
+</aside>
+
+<div id="panelBackdrop" class="ctw-panel-backdrop"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='js/dashboard.js') }}"></script>
+{% endblock %}

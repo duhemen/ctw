@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Feedback Publik - CTW{% endblock %}
+{% block content %}
+<section class="ctw-page-header">
+    <h1>Kanal Feedback Transparansi</h1>
+    <p>Tiga pilar pengawasan: <strong>Hasil Audit</strong>, <strong>Hasil Inspeksi</strong>, dan <strong>Laporan Publik</strong>.</p>
+</section>
+
+{% if request.query_params.get('success') %}
+<div class="ctw-alert ctw-alert--success">Terima kasih! Laporan Anda telah diterima.</div>
+{% endif %}
+
+<div class="ctw-feedback-layout">
+    <section class="ctw-card">
+        <h2>Kirim Laporan</h2>
+        <form action="/feedback/submit" method="post" enctype="multipart/form-data" class="ctw-form">
+            <input type="hidden" name="csrf_token" value="{{ get_csrf_token(request) }}">
+            <label for="feedback_type">Jenis Feedback *</label>
+            <select id="feedback_type" name="feedback_type" required>
+                <option value="publik">Laporan Publik / Masyarakat</option>
+                <option value="inspeksi">Hasil Inspeksi Lapangan</option>
+                <option value="audit">Hasil Audit</option>
+            </select>
+
+            <label for="project_id">Proyek Terkait *</label>
+            <select id="project_id" name="project_id" required>
+                <option value="">-- Pilih Proyek --</option>
+                {% for p in projects %}
+                <option value="{{ p.id }}">{{ p.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="reporter_name">Nama Pelapor</label>
+            <input type="text" id="reporter_name" name="reporter_name" placeholder="Kosongkan jika anonim" maxlength="150">
+
+            <label for="reporter_contact">Kontak</label>
+            <input type="text" id="reporter_contact" name="reporter_contact" placeholder="Opsional" maxlength="150">
+
+            <label for="title">Judul Laporan *</label>
+            <input type="text" id="title" name="title" required minlength="5" maxlength="200">
+
+            <label for="content">Isi Laporan *</label>
+            <textarea id="content" name="content" required minlength="10" rows="6"></textarea>
+
+            <label for="attachment">Lampiran</label>
+            <input type="file" id="attachment" name="attachment" accept="image/*,.pdf,.docx">
+
+            <button type="submit" class="ctw-btn ctw-btn--primary">Kirim Laporan</button>
+        </form>
+    </section>
+
+    <section class="ctw-card">
+        <h2>Laporan Terbaru</h2>
+        {% if recent_feedbacks %}
+        <ul class="ctw-feedback-list">
+            {% for fb in recent_feedbacks %}
+            <li class="ctw-feedback-item">
+                <span class="ctw-badge ctw-badge--{{ fb.feedback_type }}">
+                    {{ type_labels.get(fb.feedback_type, fb.feedback_type) }}
+                </span>
+                <strong>{{ fb.title }}</strong>
+                <p>{{ fb.content[:120] }}{% if fb.content|length > 120 %}...{% endif %}</p>
+                <small>{{ fb.reporter_name }} - {{ fb.created_at.strftime('%d %b %Y %H:%M') }}</small>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="ctw-empty">Belum ada laporan.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

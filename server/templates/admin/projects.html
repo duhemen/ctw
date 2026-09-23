@@ -1,0 +1,46 @@
+{% extends "admin/base_admin.html" %}
+
+{% block page_title %}🏗️ Kelola Proyek{% endblock %}
+{% block header_actions %}
+<a href="/admin/projects/new" class="admin-btn admin-btn--primary">+ Tambah Proyek</a>
+{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th><th>Nama</th><th>Wilayah</th><th>Status</th>
+                <th>Risiko</th><th>Nilai (jt)</th><th>Progress</th><th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in projects %}
+        <tr>
+            <td>{{ p.id }}</td>
+            <td>
+                <strong>{{ p.name }}</strong><br>
+                <small>{{ p.contract_number or "-" }}</small>
+            </td>
+            <td>{{ p.region_code or "-" }}</td>
+            <td><span class="admin-badge admin-badge--{{ p.status|lower }}">{{ p.status }}</span></td>
+            <td><span class="admin-badge admin-badge--risk-{{ p.risk_level|lower }}">{{ p.risk_level }}</span></td>
+            <td>Rp {{ "%.0f"|format(p.contract_value or 0) }}</td>
+            <td>{{ "%.1f"|format(p.progress_physical or 0) }}%</td>
+            <td class="admin-actions">
+                <a href="/admin/projects/{{ p.id }}/photos" class="admin-btn admin-btn--sm">📸 Foto</a>
+                <a href="/admin/projects/{{ p.id }}/edit" class="admin-btn admin-btn--sm">Edit</a>
+                <form method="post" action="/admin/projects/{{ p.id }}/delete"
+                      onsubmit="return confirm('Hapus proyek ini?');" style="display:inline;">
+            <input type="hidden" name="csrf_token" value="{{ get_csrf_token(request) }}">
+                    <button type="submit" class="admin-btn admin-btn--sm admin-btn--danger">Hapus</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="admin-empty">Belum ada proyek.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

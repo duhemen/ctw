@@ -1,0 +1,41 @@
+{% extends "admin/base_admin.html" %}
+
+{% block page_title %}⛔ Kelola Blacklist{% endblock %}
+{% block header_actions %}
+<a href="/admin/blacklist/new" class="admin-btn admin-btn--primary">+ Tambah Blacklist</a>
+{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Penyedia</th><th>Kategori</th><th>Alasan</th>
+                <th>SK</th><th>Periode</th><th>Status</th><th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for e in entries %}
+        <tr>
+            <td><strong>{{ e.provider.name if e.provider else "-" }}</strong></td>
+            <td><span class="admin-badge admin-badge--danger">{{ e.category }}</span></td>
+            <td><small>{{ e.reason[:100] }}{% if e.reason|length > 100 %}...{% endif %}</small></td>
+            <td><small>{{ e.decision_number or "-" }}</small></td>
+            <td><small>{{ e.start_date or "-" }} → {{ e.end_date or "∞" }}</small></td>
+            <td><span class="admin-badge">{{ e.status }}</span></td>
+            <td class="admin-actions">
+                <a href="/admin/blacklist/{{ e.id }}/edit" class="admin-btn admin-btn--sm">Edit</a>
+                <form method="post" action="/admin/blacklist/{{ e.id }}/delete"
+                      onsubmit="return confirm('Hapus data blacklist ini?');" style="display:inline;">
+            <input type="hidden" name="csrf_token" value="{{ get_csrf_token(request) }}">
+                    <button type="submit" class="admin-btn admin-btn--sm admin-btn--danger">Hapus</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="admin-empty">Belum ada data blacklist.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

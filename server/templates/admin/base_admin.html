@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/polish.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/form_fix.css') }}">
+</head>
+<body>
+<div class="admin-layout">
+    <aside class="admin-sidebar">
+        <div class="admin-brand">
+            <span class="admin-brand__icon">🏗️</span>
+            <div>
+                <strong>CTW Admin</strong>
+                <small>Construction Transparency Watch</small>
+            </div>
+        </div>
+        <nav class="admin-nav">
+            <a href="/admin/" class="{% if active_page == 'dashboard' %}active{% endif %}">
+                <span>📊</span> Dashboard
+            </a>
+            <a href="/admin/projects" class="{% if active_page == 'projects' %}active{% endif %}">
+                <span>🏗️</span> Proyek
+            </a>
+            <a href="/admin/providers" class="{% if active_page == 'providers' %}active{% endif %}">
+                <span>🏢</span> Penyedia
+            </a>
+            <a href="/admin/blacklist" class="{% if active_page == 'blacklist' %}active{% endif %}">
+                <span>⛔</span> Blacklist
+            </a>
+            <a href="/admin/feedback" class="{% if active_page == 'feedback' %}active{% endif %}">
+                <span>📣</span> Feedback
+            </a>
+            <hr>
+            <a href="/" target="_blank"><span>🌐</span> Lihat Publik</a>
+            <a href="/docs" target="_blank"><span>📚</span> API Docs</a>
+        </nav>
+        <div class="admin-user">
+            <div class="admin-user__info">
+                <strong>{{ user.username }}</strong>
+                <small>Administrator</small>
+            </div>
+            <a href="/admin/logout" class="admin-user__logout" title="Logout">↪</a>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <h1>{% block page_title %}{{ title }}{% endblock %}</h1>
+            <div class="admin-header__actions">{% block header_actions %}{% endblock %}</div>
+        </header>
+
+        {% if request.query_params.get('success') %}
+        <div class="admin-alert admin-alert--success">
+            ✅ Data berhasil di-{{ request.query_params.get('success') }}.
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+</div>
+    <script src="{{ url_for('static', path='js/ui.js') }}"></script>
+</body>
+</html>

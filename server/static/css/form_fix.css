@@ -1,0 +1,180 @@
+/* ============ Form Proyek: Region Cascade + Mini Map ============ */
+
+/* Region search */
+.region-search-wrap {
+    position: relative;
+    margin-bottom: 0.75rem;
+}
+.region-search-wrap input {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--admin-border);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+.region-search-wrap input:focus {
+    outline: none;
+    border-color: var(--admin-accent);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+.region-search-results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--admin-border);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    max-height: 320px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.region-search-item {
+    padding: 0.6rem 0.85rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--admin-border);
+    transition: background 0.15s;
+}
+.region-search-item:last-child { border-bottom: none; }
+.region-search-item:hover { background: #f1f5f9; }
+.region-search-item strong {
+    font-size: 0.9rem;
+    color: var(--admin-text);
+}
+.region-search-item__meta {
+    font-size: 0.7rem;
+    color: var(--admin-muted);
+    margin-top: 0.15rem;
+}
+.region-search-empty {
+    padding: 1rem;
+    text-align: center;
+    color: var(--admin-muted);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/* Region cascade */
+.region-cascade {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+}
+.region-cascade > div { min-width: 0; }
+.region-cascade label {
+    font-size: 0.75rem !important;
+    margin-top: 0.35rem !important;
+}
+.region-select {
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid var(--admin-border);
+    border-radius: 6px;
+    font-size: 0.82rem;
+    background: #fff;
+}
+.region-select:focus {
+    outline: none;
+    border-color: var(--admin-accent);
+}
+
+/* Region path info */
+.region-path-info {
+    padding: 0.6rem 0.85rem;
+    background: #eff6ff;
+    border-left: 3px solid var(--admin-accent);
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
+    color: #1e3a8a;
+}
+.region-path-info small { color: #64748b; display: block; margin-bottom: 0.2rem; }
+#regionPathText { font-weight: 600; }
+
+/* Coordinate hint */
+.coord-hint {
+    padding: 0.6rem 0.85rem;
+    background: #fef3c7;
+    border-left: 3px solid #f59e0b;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    color: #78350f;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+/* Coord actions */
+.coord-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+
+/* Mini map */
+.mini-map {
+    width: 100%;
+    height: 260px;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+    margin-bottom: 0.35rem;
+    background: #e2e8f0;
+    z-index: 1;
+}
+.mini-map__hint {
+    font-size: 0.72rem;
+    color: var(--admin-muted);
+    font-style: italic;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+/* Provider select with + button */
+.provider-select-wrap {
+    display: flex;
+    gap: 0.4rem;
+    align-items: stretch;
+}
+.provider-select-wrap select {
+    flex: 1;
+    min-width: 0;
+}
+.provider-select-wrap a {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 0.5rem 0.75rem;
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+.provider-select-wrap a:hover {
+    background: #bbf7d0;
+}
+
+@media (max-width: 900px) {
+    .region-cascade { grid-template-columns: 1fr; }
+    .mini-map { height: 220px; }
+}
+
+
+/* Field warning */
+.field-warning {
+    display: block;
+    margin-top: 0.35rem;
+    padding: 0.4rem 0.6rem;
+    background: #fef3c7;
+    color: #78350f;
+    border-left: 3px solid #f59e0b;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    line-height: 1.4;
+}
