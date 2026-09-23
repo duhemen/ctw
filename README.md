@@ -65,35 +65,6 @@
 
 </div>
 
-<!-- Primary Badges -->
-<p>
-  <a href="https://github.com/duhemen/ctw/stargazers"><img src="https://img.shields.io/github/stars/duhemen/ctw?style=for-the-badge&logo=github&color=yellow&labelColor=1e3a8a" alt="Stars"></a>
-  <a href="https://github.com/duhemen/ctw/network/members"><img src="https://img.shields.io/github/forks/duhemen/ctw?style=for-the-badge&logo=github&color=blue&labelColor=1e3a8a" alt="Forks"></a>
-  <a href="https://github.com/duhemen/ctw/issues"><img src="https://img.shields.io/github/issues/duhemen/ctw?style=for-the-badge&logo=github&color=red&labelColor=1e3a8a" alt="Issues"></a>
-  <a href="https://github.com/duhemen/ctw/blob/main/LICENSE"><img src="https://img.shields.io/github/license/duhemen/ctw?style=for-the-badge&color=green&labelColor=1e3a8a" alt="License"></a>
-</p>
-
-<!-- Tech Stack Badges -->
-<p>
-  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/FastAPI-0.115+-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
-  <img src="https://img.shields.io/badge/SQLAlchemy-2.0-D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=white" alt="SQLAlchemy">
-  <img src="https://img.shields.io/badge/SQLite-3-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
-  <img src="https://img.shields.io/badge/Leaflet-1.9-199900?style=for-the-badge&logo=leaflet&logoColor=white" alt="Leaflet">
-  <img src="https://img.shields.io/badge/Jinja2-3.1-B41717?style=for-the-badge&logo=jinja&logoColor=white" alt="Jinja2">
-  <img src="https://img.shields.io/badge/Chart.js-4.4-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white" alt="Chart.js">
-  <img src="https://img.shields.io/badge/Pydantic-2.13-E92063?style=for-the-badge&logo=pydantic&logoColor=white" alt="Pydantic">
-</p>
-
-<!-- Status Badges -->
-<p>
-  <img src="https://img.shields.io/badge/Status-Active_Development-success?style=for-the-badge&logo=statuspage&logoColor=white" alt="Status">
-  <img src="https://img.shields.io/badge/Version-0.1.0-blue?style=for-the-badge&logo=semanticrelease&logoColor=white" alt="Version">
-  <img src="https://img.shields.io/badge/Region-Indonesia_%F0%9F%87%AE%F0%9F%87%A9-red?style=for-the-badge&labelColor=white" alt="Region">
-  <img src="https://img.shields.io/badge/Made_with-%E2%9D%A4%EF%B8%8F-red?style=for-the-badge" alt="Made with Love">
-</p>
-
-<br>
 
 <!-- Short Description -->
 > 🏗️ **Construction Transparency Watch (CTW)** adalah platform open-source untuk **pengawasan konstruksi publik** yang menggabungkan **data geospasial**, **transparansi anggaran**, dan **partisipasi masyarakat** dalam satu dashboard terpadu.
