@@ -6,22 +6,63 @@
 
 <!-- Animated Typing SVG -->
 <a href="https://github.com/duhemen/ctw">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=28&duration=3000&pause=1000&color=1E3A8A&center=true&vCenter=true&multiline=true&width=800&height=100&lines=Construction+Transparency+Watch;Pengawasan+Konstruksi+Berbasis+Geospasial" alt="CTW Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=800&size=28&duration=2800&pause=1200&color=1E3A8A&center=true&vCenter=true&width=720&height=60&lines=Construction+Transparency+Watch" alt="Construction Transparency Watch" />
 </a>
 
-<!-- Logo Banner -->
-```
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                                                                           ║
-║    ██████╗████████╗██╗    ██╗     Construction Transparency Watch         ║
-║   ██╔════╝╚══██╔══╝██║    ██║     ─────────────────────────────────        ║
-║   ██║        ██║   ██║ █╗ ██║     Platform pengawasan konstruksi           ║
-║   ██║        ██║   ██║███╗██║     berbasis geospasial yang transparan,     ║
-║   ╚██████╗   ██║   ╚███╔███╔╝     partisipatif, dan terdesentralisasi.     ║
-║    ╚═════╝   ╚═╝    ╚══╝╚══╝                                              ║
-║                                                                           ║
-╚═══════════════════════════════════════════════════════════════════════════╝
-```
+<br>
+
+<!-- Tagline -->
+<h3>
+  🏗️ <strong>Pengawasan Konstruksi Berbasis Geospasial</strong> 🗺️
+</h3>
+
+<!-- Sub-tagline -->
+<p>
+  <em>Platform terbuka untuk <strong>transparansi</strong>, <strong>partisipasi</strong>,<br>
+  dan <strong>akuntabilitas</strong> proyek konstruksi publik di Indonesia.</em>
+</p>
+
+<br>
+
+<!-- Primary Badges -->
+<p>
+  <a href="https://github.com/duhemen/ctw/stargazers">
+    <img src="https://img.shields.io/github/stars/duhemen/ctw?style=for-the-badge&logo=github&color=yellow&labelColor=1e3a8a" alt="Stars">
+  </a>
+  <a href="https://github.com/duhemen/ctw/network/members">
+    <img src="https://img.shields.io/github/forks/duhemen/ctw?style=for-the-badge&logo=github&color=blue&labelColor=1e3a8a" alt="Forks">
+  </a>
+  <a href="https://github.com/duhemen/ctw/issues">
+    <img src="https://img.shields.io/github/issues/duhemen/ctw?style=for-the-badge&logo=github&color=red&labelColor=1e3a8a" alt="Issues">
+  </a>
+  <a href="https://github.com/duhemen/ctw/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/duhemen/ctw?style=for-the-badge&color=green&labelColor=1e3a8a" alt="License">
+  </a>
+</p>
+
+<!-- Tech Stack Badges -->
+<p>
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/FastAPI-0.115+-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/SQLAlchemy-2.0-D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=white" alt="SQLAlchemy">
+  <img src="https://img.shields.io/badge/SQLite-3-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
+  <img src="https://img.shields.io/badge/Leaflet-1.9-199900?style=for-the-badge&logo=leaflet&logoColor=white" alt="Leaflet">
+  <img src="https://img.shields.io/badge/Jinja2-3.1-B41717?style=for-the-badge&logo=jinja&logoColor=white" alt="Jinja2">
+</p>
+
+<!-- Status Badges -->
+<p>
+  <img src="https://img.shields.io/badge/Status-Active_Development-success?style=for-the-badge&logo=statuspage&logoColor=white" alt="Status">
+  <img src="https://img.shields.io/badge/Version-0.1.0-blue?style=for-the-badge&logo=semanticrelease&logoColor=white" alt="Version">
+  <img src="https://img.shields.io/badge/Region-Indonesia_%F0%9F%87%AE%F0%9F%87%A9-red?style=for-the-badge&labelColor=white" alt="Region">
+  <img src="https://img.shields.io/badge/Made_with-%E2%9D%A4%EF%B8%8F-red?style=for-the-badge" alt="Made with Love">
+</p>
+
+<br>
+
+<!-- Divider -->
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" alt="divider" width="100%">
+
 </div>
 
 <!-- Primary Badges -->
