@@ -57,7 +57,7 @@ Masyarakat dapat memantau proyek konstruksi di wilayahnya, melihat progress real
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/USERNAME/ctw.git
+git clone https://github.com/duhemen/ctw.git
 cd ctw
 
 # 2. Buat environment
@@ -201,7 +201,6 @@ MIT License — bebas digunakan, dimodifikasi, dan didistribusikan dengan atribu
 ## 🙏 Kredit
 
 - [cahyadsn/wilayah_boundaries](https://github.com/cahyadsn/wilayah_boundaries)
-- [duhemen/spatialnomic](https://github.com/duhemen/spatialnomic)
 - [mellygsIn/peatfr](https://github.com/mellygsIn/peatfr)
 - OpenStreetMap contributors
 
