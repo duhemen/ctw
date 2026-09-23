@@ -22,6 +22,7 @@
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 ```
+</div>
 
 <!-- Primary Badges -->
 <p>
@@ -223,12 +224,6 @@ Di Indonesia, pengawasan proyek konstruksi publik masih menghadapi berbagai tant
 > 💡 **Tips:** Semua screenshot akan ditambahkan di folder `docs/screenshots/` setelah deployment pertama.
 
 ---
-'''
-
-# ============================================================
-# BAGIAN 3: INSTALASI
-# ============================================================
-installation = '''
 ## ⚡ Instalasi Cepat
 
 > ⏱️ **Estimasi waktu:** 5–10 menit dari clone sampai jalan
