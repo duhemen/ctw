@@ -983,4 +983,3 @@ Beri ⭐ kalau bermanfaat! Bantu kami jangkau lebih banyak orang.
 <img src="https://capsule-render.vercel.app/api?type=waving&color=1e3a8a&height=100&section=footer&text=Terima%20Kasih!&fontSize=30&fontColor=ffffff&animation=fadeIn" alt="Footer Wave">
 
 </div>
----
