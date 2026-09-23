@@ -52,3 +52,5 @@ bootstrap*.py
 push_github.py
 *.bak
 *.bak_*
+data/raw/**/*.sql
+data/raw/**/*.json
